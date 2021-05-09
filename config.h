@@ -27,6 +27,16 @@ const char home_html[] PROGMEM = R"rawliteral(
     font-size: 3.0rem;
     color: #5900b8;
     }
+
+    .name-host {
+    font-size: 16px;
+    margin-bottom: 20px;
+    }
+    .name-text {
+    font-size: 20px;
+    font-weight: bold;
+    }
+
    .menu-buttons{
      margin-bottom: 40px;
     }
@@ -79,6 +89,11 @@ const char home_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
    <h2>ESP Web Home</h2>
+
+   <div class = "name-host">
+    <span class = "name-text">Host Name:</name-text></span>
+    <span class = "host">%hostplaceholder%</host></span>
+   </div>
    
    <div class = "menu-buttons">
    <div class = "button button1">
@@ -91,9 +106,9 @@ const char home_html[] PROGMEM = R"rawliteral(
    
     <div class="columns mt-4">
       <div class="col-12 text-center">
-       <span class="label label-rounded mr-2">*******</span> 
+       <span class="label label-rounded mr-2">%IDplaceholder%</span> 
        -
-       <span class="label label-rounded label-primary ml-2">ESP8266</span>
+       <span class="label label-rounded label-primary ml-2">%processorplaceholder%</span>
      </div>
     </div> 
   </div>
@@ -169,6 +184,32 @@ const char update_html[] PROGMEM = R"rawliteral(
     font-size: 14px;
     padding: 4px;
    }
+   .flash-button{
+     border: 2px solid;
+     border-radius: .4rem;
+     font-weight: bold;
+     padding: 4px 8px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     margin: 10px 4px 4px 4px;
+     cursor: pointer;
+    }
+    
+    .button-flash {
+     background-color: #000000;
+     border-color: #000000;
+     color: white;
+     } 
+    
+    .button-flash:hover {
+     background-color: #ffffff;
+     border-color: #5900b8;
+     color: #5900b8;
+     }
+
+   
    .mt-4 {
     margin-top: 40px;
    }
@@ -202,19 +243,23 @@ const char update_html[] PROGMEM = R"rawliteral(
    </div>
    
    <div class="col-12 mt-3 p-centered">
-  
      <div class="col-3 col-sm-9 col-md-6 p-centered">
        <label class="label label2 mr-2">Upload Firmware Here</label>
      <div class="form-group pt-2 mt-3"><input type="file" accept=".bin" class="form-input file-input">
      </div>
-    <div class="columns mt-4">
-      <div class="col-12 text-center">
-       <span class="label label-rounded mr-2">*******</span> 
-       -
-       <span class="label label-rounded label-primary ml-2">ESP8266</span>
+
+     <div class = "flash-button button-flash">
+      <button-flash> FLASH </button>
      </div>
-    </div> 
-  </div>
+     
+     <div class="columns mt-4">
+       <div class="col-12 text-center">
+        <span class="label label-rounded mr-2">%IDplaceholder%</span> 
+         -
+        <span class="label label-rounded label-primary ml-2">%processorplaceholder%</span>
+       </div>
+      </div> 
+    </div>
   
  
 
