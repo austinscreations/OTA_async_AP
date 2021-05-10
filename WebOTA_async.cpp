@@ -177,7 +177,7 @@ int WebOTA_async::add_http_routes(WebServer *server, const char *path) {
 			Serial.printf("Firmware update initiated: %s\r\n", upload.filename.c_str());
 
 			//uint32_t maxSketchSpace = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
-			uint32_t maxSketchSpace = this->max_sketch_size();
+			uint32_t maxSketchSpace = max_sketch_size();
 
 			if (!Update.begin(maxSketchSpace)) { //start with max available size
 				Update.printError(Serial);

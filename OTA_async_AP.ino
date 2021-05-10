@@ -1,30 +1,34 @@
 #if defined(ESP8266)
     #include "ESP8266WiFi.h"
     #include "ESPAsyncTCP.h"
-//    #include "flash_hal.h"
+//    #define U_PART U_FS
+    #include "flash_hal.h"
 #elif defined(ESP32)
     #include "WiFi.h"
     #include "AsyncTCP.h"
     #include "Update.h"
-//    #include "esp_int_wdt.h"
-//    #include "esp_task_wdt.h"
+//    #define U_PART U_SPIFFS
+    #include "esp_int_wdt.h"
+    #include "esp_task_wdt.h"
 #endif
 
 #include "ESPAsyncWebServer.h"
-//#include "FS.h"
+#include "FS.h"
 
-//#include <WebOTA_async.h>
-//#include "OTA_ASYNC.h"
-#include "config.h"
+bool restartRequired = false;
+
+#include "config.h"   // wifi and other config
+
+/* include the webpages (done in HTML) */
+#include "homepage.h"  // Homepage HTML
+#include "updatepage.h"  // UPDATEpage HTML
+//#include "doupdatepage.h"  // HTML to be created
+
 
 AsyncWebServer server(80);
+size_t content_len;
 
-long max_sketch_size() {
-  long ret = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
-  return ret;
-}
-
-String getID(){
+String getID(){ // get device ID for webpage
             String id = "";
             #if defined(ESP8266)
                 id = String(ESP.getChipId());
@@ -35,9 +39,9 @@ String getID(){
             return id;
         }
 
-String _id = getID();
+String _id = getID(); // get device ID for webpage
 
-String processor(const String& var){ // change information at bottom page
+String processor(const String& var){ // Change placeholders on webpage
   if(var == "hostplaceholder"){
     String hosting = "";
     hosting +=  host;
@@ -65,23 +69,18 @@ String processor(const String& var){ // change information at bottom page
   return String();
 }
 
-void setup_wifi() {
+void setup_wifi() {//   We start by connecting to a WiFi network
   delay(10);
-//   We start by connecting to a WiFi network
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
-
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
   randomSeed(micros());
-
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.print("IP address: ");
@@ -89,6 +88,70 @@ void setup_wifi() {
   Serial.print("MAC address: ");
   Serial.println(WiFi.macAddress());
 }
+
+boolean webInit() {
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->redirect("/home");
+  });
+
+  server.on("/home", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/html", home_html, processor );
+  });
+
+  server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/html", update_html, processor );
+  });
+
+  server.on("/doUpdate", HTTP_POST, [&](AsyncWebServerRequest *request) {
+                // the request handler is triggered after the upload has finished... 
+                // create the response, add header, and send response
+                AsyncWebServerResponse *response = request->beginResponse((Update.hasError())?500:200, "text/plain", (Update.hasError())?"FAIL":"OK");
+                response->addHeader("Connection", "close");
+                response->addHeader("Access-Control-Allow-Origin", "*");
+                request->send(response);
+                restartRequired = true;
+            }, [&](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
+                //Upload handler chunks in data
+                
+                if (!index) {
+                    
+                    #if defined(ESP8266)
+                        int cmd = (filename == "filesystem") ? U_FS : U_FLASH;
+                        Update.runAsync(true);
+                        size_t fsSize = ((size_t) &_FS_end - (size_t) &_FS_start);
+                        uint32_t maxSketchSpace = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
+                        if (!Update.begin((cmd == U_FS)?fsSize:maxSketchSpace, cmd)){ // Start with max available size
+                    #elif defined(ESP32)
+                        int cmd = (filename == "filesystem") ? U_SPIFFS : U_FLASH;
+                        if (!Update.begin(UPDATE_SIZE_UNKNOWN, cmd)) { // Start with max available size
+                    #endif
+                        Update.printError(Serial);
+                        return request->send(400, "text/plain", "OTA could not begin");
+                    }
+                }
+
+                // Write chunked data to the free sketch space
+                if(len){
+                    if (Update.write(data, len) != len) {
+                        return request->send(400, "text/plain", "OTA could not begin");
+                    }
+                }
+                    
+                if (final) { // if the final flag is set then this is the last frame of data
+                    if (!Update.end(true)) { //true to set the size to the current progress
+                        Update.printError(Serial);
+                        return request->send(400, "text/plain", "Could not end OTA");
+                    }
+                }else{
+                    return;
+                }
+                
+            });
+
+  server.onNotFound([](AsyncWebServerRequest *request){request->send(404);});
+  server.begin();
+}
+
 
 const int ledPin =  LED_BUILTIN;// the number of the LED pin
 int ledState = LOW;             // ledState used to set the LED
@@ -104,73 +167,38 @@ void setup(void) {
   WiFi.hostname(host);
   setup_wifi();
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->redirect("/home");
-  });
-
-  server.on("/home", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send_P(200, "text/html", home_html, processor );
-  });
-
-  server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send_P(200, "text/html", update_html, processor );
-  });
-
-  // Handling uploading firmware file
-//  server.on("/update", HTTP_POST, [&](AsyncWebServerRequest *request) {
-//    request->send_P(200, "text/plain", (Update.hasError()) ? "Update: fail\n" : "Update: OK!\n");
-//    delay(500);
-//    ESP.restart();
-//  },[&](AsyncWebServerRequest *request) {
-//    
-//HTTPUpload& upload = server.upload();
-//
-//    if (upload.status == UPLOAD_FILE_START) {
-//      Serial.printf("Firmware update initiated: %s\r\n", upload.filename.c_str());
-//
-//      //uint32_t maxSketchSpace = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
-//      uint32_t maxSketchSpace = max_sketch_size();
-//
-//      if (!Update.begin(maxSketchSpace)) { //start with max available size
-//        Update.printError(Serial);
-//      }
-//    } else if (upload.status == UPLOAD_FILE_WRITE) {
-//      /* flashing firmware to ESP*/
-//      if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
-//        Update.printError(Serial);
-//      }
-//
-//      // Store the next milestone to output
-//      uint16_t chunk_size  = 51200;
-//      static uint32_t next = 51200;
-//
-//      // Check if we need to output a milestone (100k 200k 300k)
-//      if (upload.totalSize >= next) {
-//        Serial.printf("%dk ", next / 1024);
-//        next += chunk_size;
-//      }
-//    } else if (upload.status == UPLOAD_FILE_END) {
-//      if (Update.end(true)) { //true to set the size to the current progress
-//        Serial.printf("\r\nFirmware update successful: %u bytes\r\nRebooting...\r\n", upload.totalSize);
-//      } else {
-//        Update.printError(Serial);
-//      }
-//    }
+//  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+//    request->redirect("/home");
 //  });
+//
+//  server.on("/home", HTTP_GET, [](AsyncWebServerRequest *request) {
+//    request->send_P(200, "text/html", home_html, processor );
+//  });
+//
+//  server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request) {
+//    request->send_P(200, "text/html", update_html, processor );
+//  });
+//  server.begin();
 
-  server.begin();
-  
-//  OTA_ASYNC.begin(&server);    // Start OTA
-
-//  Serial.println("HTTP server started")
-
-
-
-
-;
-}
+   webInit();
+} // end setup
 
 void loop() {
+if(restartRequired){
+                yield();
+                delay(1000);
+                yield();
+                #if defined(ESP8266)
+                    ESP.restart();
+                #elif defined(ESP32)
+                    // ESP32 will commit sucide
+                    esp_task_wdt_init(1,true);
+                    esp_task_wdt_add(NULL);
+                    while(true);
+                #endif
+            }
+  
+
 
 //unsigned long currentMillis = millis();
 //  if (currentMillis - previousMillis >= interval) {
@@ -184,6 +212,8 @@ void loop() {
 //  }
 
 
-//OTA_ASYNC.loop();
-//    webota.handle();
-}
+
+
+
+
+} // end loop
