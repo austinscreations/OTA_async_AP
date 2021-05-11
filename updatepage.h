@@ -10,14 +10,14 @@ const char update_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>ESP Web Update Server</title>
+<title>%title% Update Server</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <style>
     html {font-family: Arial; display: inline-block; text-align: center;}
     h2 {
     font-size: 3.0rem;
-    color: #5900b8;
+    color: %color%;
     }
    .menu-buttons{
      margin-bottom: 40px;
@@ -40,11 +40,11 @@ const char update_html[] PROGMEM = R"rawliteral(
    color: BLACK;
    } 
    .button2 {
-   background-color: #5900b8;
+   background-color: %color%;
    color: White;
    } 
    .button1:hover {
-  background-color: #b370fa;
+  background-color: %hover%;
   color: white;
   }
   
@@ -61,9 +61,9 @@ const char update_html[] PROGMEM = R"rawliteral(
   .form-input {
     background: #fff;
     background-image: none;
-    border: 0.20rem dashed #5900b8;
+    border: 0.20rem dashed %color%;
     border-radius: .4rem;
-    color: #3b4351;
+    color: %hover%;
     font-size: 14px;
     padding: 4px;
    }
@@ -88,7 +88,7 @@ const char update_html[] PROGMEM = R"rawliteral(
     input[type="submit"]:hover {
      background-color: #ffffff;
      border-color: #ffffff;
-     color: #5900b8;
+     color: %color%;
      border: 3px solid;
      border-radius: .4rem;
      font-weight: bold;
@@ -106,7 +106,7 @@ const char update_html[] PROGMEM = R"rawliteral(
     font-size: 16px;
    }
    .label.label-primary {
-    background: #5900b8;
+    background: %color%;
     color: #fff;
     margin-left: 5px;
    }
@@ -120,7 +120,7 @@ const char update_html[] PROGMEM = R"rawliteral(
   
 </head>
 <body>
-   <h2>ESP Web Update Server</h2>
+   <h2>%title% Update Server</h2>
    
    <div class = "menu-buttons">
     <div class = "button button1">
@@ -137,7 +137,7 @@ const char update_html[] PROGMEM = R"rawliteral(
        <label class="label label2 mr-2">Upload Firmware Here</label>
     <div class="form-group pt-2 mt-3">
     <form method="POST" action="/doUpdate" enctype="multipart/form-data" id="upload_form">
-    <input type="file" name="update" id="file" accept=".bin" class="form-input file-input">
+    <input type="file" name="/update" id="file" accept=".bin" class="form-input file-input">
     <input type="submit" value="FLASH">
     </form>
      </div>
@@ -156,7 +156,8 @@ const char update_html[] PROGMEM = R"rawliteral(
     </div> 
   </div>
  
-</script>
+
+<script>
 </body>
 </html>
 

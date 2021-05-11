@@ -31,7 +31,7 @@
   void begin(AsyncWebServer *server){
             _server = server;
 
-           _server->on("/update", HTTP_POST, [&](AsyncWebServerRequest *request) {
+           _server->on("/doUpdate", HTTP_POST, [&](AsyncWebServerRequest *request) {
                 
                 // the request handler is triggered after the upload has finished... 
                 // create the response, add header, and send response
@@ -72,7 +72,9 @@
                     if (Update.write(data, len) != len) {
                         return request->send(400, "text/plain", "OTA could not begin");
                     }
-                }
+                 }
+
+                 
                     
                 if (final) { // if the final flag is set then this is the last frame of data
                     if (!Update.end(true)) { //true to set the size to the current progress

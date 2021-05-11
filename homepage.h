@@ -15,7 +15,7 @@ const char home_html[] PROGMEM = R"rawliteral(
     html {font-family: Arial; display: inline-block; text-align: center;}
     h2 {
     font-size: 3.0rem;
-    color: #5900b8;
+    color: %color%;
     }
     
     .name-host {
@@ -34,11 +34,7 @@ const char home_html[] PROGMEM = R"rawliteral(
    .menu-buttons{
      margin-bottom: 30px;
     }
-    
-    .name-adendem {
-    font-size: 10px;
-    margin-bottom: 5px;
-    }
+
     
    .button {
      border: 2px solid;
@@ -54,7 +50,7 @@ const char home_html[] PROGMEM = R"rawliteral(
      cursor: pointer;
     }
    .button1 {
-   background-color: #5900b8;
+   background-color: %color%;
    color: white;
    } 
    .button2 {
@@ -62,18 +58,18 @@ const char home_html[] PROGMEM = R"rawliteral(
    color: black;
    }
   .button2:hover {
-  background-color: #b370fa;
+  background-color: %hover%;
   color: white;
   }
 
    .mt-4 {
-    margin-top: 10px;
+    margin-top: 40px;
    }
    .label {
     font-size: 16px;
    }
    .label.label-primary {
-    background: #5900b8;
+    background: %color%;
     color: #fff;
     margin-left: 5px;
    }
@@ -87,7 +83,7 @@ const char home_html[] PROGMEM = R"rawliteral(
   
 </head>
 <body>
-   <h2>ESP Web Home</h2>
+   <h2>%title% Home</h2>
    
   
    <div class = "menu-buttons">
@@ -100,8 +96,8 @@ const char home_html[] PROGMEM = R"rawliteral(
    </div>
    
     <div class = "name-host">
-    <span class = "name-text">*Host Name:</name-text></span>
-    <span class = "host">%hostplaceholder%</host></span>
+    <span class = "name-text">IP Address:</name-text></span>
+    <span class = "host">%ipplaceholder%</host></span>
    </div>
    
    <div class = "name-mac">
@@ -109,11 +105,6 @@ const char home_html[] PROGMEM = R"rawliteral(
     <span class = "host">%macplaceholder%</host></span>
    </div>
    
-   <div class = "name-adendem">
-    <span class = "name-text1">
-    *host name may or may not be correct based on your local Network Settings
-    </name-text1></span>
-   </div>
    
     <div class="columns mt-4">
       <div class="col-12 text-center">
