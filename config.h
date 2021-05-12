@@ -1,11 +1,11 @@
 /* WIFI */
-const char* ssid = "........";
-const char* password = "........";
+const char* ssid        = "........";
+const char* password    = "........";
 
 const char* host        = "ESP-OTA";
 
 /* HTML */
-const char* htmltitle   = "WHO am I?"; // main title on the top of webpage --- if not defined will default to device name then host
+#define htmltitle         "WHO am I?" // main title on the top of webpage --- if not defined will default to device name then host
 
 // purple
 //const char* htmlcolor   = "#5900b8"; // main HTML webpage color
