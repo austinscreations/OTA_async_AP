@@ -91,6 +91,15 @@ String processor(const String& var){ // Change placeholders on webpage
                 #endif
     return PROing;
   }
+  if(var == "typeplaceholder"){
+    String typeing = "";
+                #if defined(typetitle)
+                      typeing += typetitle;
+                #else 
+                      typeing +=  "WHAT AM I?";
+                #endif
+    return typeing;
+  }
   return String();
 }
 

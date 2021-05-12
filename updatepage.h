@@ -20,19 +20,19 @@ const char update_html[] PROGMEM = R"rawliteral(
     color: %color%;
     }
    .menu-buttons{
-     margin-bottom: 40px;
+     margin-bottom: 1.0rem;
     }    
    .button {
-     border: 2px solid;
+     border: .15rem solid;
      border-radius: .4rem;
      border-color: black;
      font-weight: bold;
-     padding: 4px 8px;
+     padding: .25rem .6rem;
      text-align: center;
      text-decoration: none;
      display: inline-block;
-     font-size: 16px;
-     margin: 4px 4px 4px 4px;
+     font-size: 1.0rem;
+     margin: .5rem .5rem .5rem .5rem;
      cursor: pointer;
     }
    .button1 {
@@ -55,44 +55,43 @@ const char update_html[] PROGMEM = R"rawliteral(
     min-height: 1.4rem;
     padding: .1rem .4rem .1rem 1.2rem;
     position: center;
-    font-size: 24px;
+    font-size: 1.25rem;
    }
-  .pt-2 {padding-top: 12px;}
+  .pt-2 {padding-top: .75rem;}
   .form-input {
     background: #fff;
     background-image: none;
     border: 0.20rem dashed %color%;
     border-radius: .4rem;
     color: %hover%;
-    font-size: 14px;
-    padding: 4px;
+    font-size: .9rem;
+    padding:  .4rem;
    }
      
     input[type="submit"] {
      background-color: #000000;
      border-color: #000000;
      color: white;
-     font-size: 16px;
+     font-size: 1.0rem;
      font-weight: bold;
-     border: 3px solid;
+     border:  .25rem solid;
      border-radius: .4rem;
      font-weight: bold;
-     padding: 4px 8px;
+     padding:  .3rem .8rem;
      text-align: center;
      text-decoration: none;
      display: inline-block;
-     font-size: 16px;
-     margin: 10px 5px 4px 4px;
+     margin: .9rem .45rem .4rem .4rem;
      cursor: pointer;
      }
     input[type="submit"]:hover {
      background-color: #ffffff;
      border-color: #ffffff;
      color: %color%;
-     border: 3px solid;
+     border: .25rem solid;
      border-radius: .4rem;
      font-weight: bold;
-     font-size: 16px;
+     font-size: 1.0rem;
      cursor: pointer;
      
      }
@@ -100,20 +99,20 @@ const char update_html[] PROGMEM = R"rawliteral(
    
    
    .mt-4 {
-    margin-top: 40px;
-   }
-   .label {
-    font-size: 16px;
+    margin-top: 5.0rem;
    }
    .label.label-primary {
     background: %color%;
     color: #fff;
-    margin-left: 5px;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    font-size: 1.0rem;
    }
    .label.label-rounded {
     border-radius: 5rem;
     padding-left: .5rem;
     padding-right: .5rem;
+    font-size: 1.0rem;
    }
    
   </style>
@@ -142,16 +141,13 @@ const char update_html[] PROGMEM = R"rawliteral(
     </form>
      </div>
      
-    <div id="prg_wrap" style="border: 0px solid; width: 100%;">
-     <div id="prg" style="text-shadow: 2px 2px 3px black; padding: 5px 0; display: none; border: 1px solid       #008aff; background: #002180; text-align: center; color: white;">
-     </div>
-    </div>
-         
     <div class="columns mt-4">
       <div class="col-12 text-center">
        <span class="label label-rounded mr-2">%IDplaceholder%</span> 
        -
        <span class="label label-rounded label-primary ml-2">%processorplaceholder%</span>
+       -
+       <span class="label label-rounded mr-2">%typeplaceholder%</span>
      </div>
     </div> 
   </div>
