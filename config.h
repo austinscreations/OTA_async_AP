@@ -3,7 +3,6 @@ const char* ssid = "........";
 const char* password = "........";
 
 const char* host        = "ESP-OTA";
-//const char* DeviceName  = ""; // optional device name, or reuses host name
 
 /* HTML */
 const char* htmltitle   = "WHO am I?"; // main title on the top of webpage --- if not defined will default to device name then host
