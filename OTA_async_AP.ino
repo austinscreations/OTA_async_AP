@@ -1,3 +1,9 @@
+/* For Platform.IO */
+/* Sets Device Name Flag */
+#define ST(A) #A
+#define STR(A) ST(A) 
+////////////////////
+
 #if defined(ESP8266)
     #include "ESP8266WiFi.h"
     #include "ESPAsyncTCP.h"
