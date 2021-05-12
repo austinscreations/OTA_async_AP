@@ -44,7 +44,11 @@ String ip3string(IPAddress ip) {
 String processor(const String& var){ // Change placeholders on webpage
   if(var == "title"){
     String titleing = "";
-    titleing +=  htmltitle;
+            #if defined(htmltitle)
+                titleing += htmltitle;
+            #else defined(DeviceName)
+                titleing +=  DeviceID();
+            #endif
     return titleing;
   }
   if(var == "color"){
