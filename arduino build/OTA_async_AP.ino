@@ -25,7 +25,6 @@ bool restartRequired = false;
 
 /* include the webpages (done in HTML) */
 #include "homepage.h"  // Homepage HTML
-#include "updatepage.h"  // UPDATEpage HTML
 #include "doupdatepage.h"  // HTML to be created
 
 
