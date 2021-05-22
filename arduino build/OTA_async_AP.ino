@@ -27,7 +27,6 @@ bool restartRequired = false;
 #include "homepage.h"  // Homepage HTML
 #include "doupdatepage.h"  // HTML to be created
 
-
 AsyncWebServer server(80);
 
 String DeviceID()
@@ -136,6 +135,11 @@ boolean webInit() {
 
   server.on("/complete", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send_P(200, "text/html", test2_html, processor );
+  });
+
+  server.on("/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/html", reboot_html, processor );
+    restartRequired = true;
   });
 
   server.on("/update", HTTP_POST, [&](AsyncWebServerRequest *request) {

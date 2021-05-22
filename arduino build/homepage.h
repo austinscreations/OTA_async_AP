@@ -13,6 +13,14 @@ const char home_html[] PROGMEM = R"rawliteral(
   <link rel="icon" href="data:,">
   <style>
     html {font-family: Arial; display: inline-block; text-align: center;}
+    body {
+     background-color: white;
+     color: black;
+    }
+   .dark-mode {
+    background-color: black;
+    color: white;
+   }
     h2 {
     font-size: 3.0rem;
     color: %color%;
@@ -32,13 +40,13 @@ const char home_html[] PROGMEM = R"rawliteral(
     }
     
    .menu-buttons{
+     margin-top: 1.0rem;
      margin-bottom: 1.0rem;
     }
     
    .button {
      border: .15rem solid;
      border-radius: .4rem;
-     border-color: black;
      font-weight: bold;
      padding: .25rem .6rem;
      text-align: center;
@@ -51,11 +59,9 @@ const char home_html[] PROGMEM = R"rawliteral(
    .button1 {
    background-color: %color%;
    color: white;
-   } 
-   .button2 {
-   background-color: #ffffff;
-   color: black;
+   border-color: %hover%;
    }
+  
   .button2:hover {
   background-color: %hover%;
   color: white;
@@ -92,6 +98,9 @@ const char home_html[] PROGMEM = R"rawliteral(
     <div class = "button button2">
      <button2 onclick="location.href='/update'">Management</button>
     </div>
+    <div class = "button button2">
+    <button2 onclick="darkFunction()">Toggle dark mode</button2>
+    </div>
    </div>
    
     <div class = "name-host">
@@ -117,6 +126,11 @@ const char home_html[] PROGMEM = R"rawliteral(
     </div> 
   </div>
   
+   <script>
+  function darkFunction() {
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+}
  
 
 

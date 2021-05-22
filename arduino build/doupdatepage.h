@@ -3,6 +3,23 @@
 #ifndef doupdatepage_h
 #define doupdatepage_h
 
+const char reboot_html[] PROGMEM = R"rawliteral(
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>%title% reboot worked</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <meta http-equiv="refresh" content="5; URL='/'" />
+</head>
+<body>
+</script>
+</body>
+</html>
+
+)rawliteral";
+  
+
 const char test2_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
 <html>
@@ -36,7 +53,22 @@ const char test_html[] PROGMEM = R"rawliteral(
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <style>
-    html {font-family: Arial; display: inline-block; text-align: center;}
+    html {
+    font-family: Arial; 
+    display: inline-block; 
+    text-align: center;
+    }
+    
+    body {
+     background-color: white;
+     color: black;
+    }
+    
+   .dark-mode {
+    background-color: black;
+    color: white;
+   }
+    
     h2 {
     font-size: 3.0rem;
     color: %color%;
@@ -48,7 +80,6 @@ const char test_html[] PROGMEM = R"rawliteral(
    .button {
      border: .15rem solid;
      border-radius: .4rem;
-     border-color: black;
      font-weight: bold;
      padding: .25rem .6rem;
      text-align: center;
@@ -58,13 +89,10 @@ const char test_html[] PROGMEM = R"rawliteral(
      margin: .5rem .5rem .5rem .5rem;
      cursor: pointer;
     }
-   .button1 {
-   background-color: #ffffff;
-   color: BLACK;
-   } 
    .button2 {
    background-color: %color%;
    color: White;
+   border-color: %hover%;
    } 
    .button1:hover {
   background-color: %hover%;
@@ -79,10 +107,6 @@ const char test_html[] PROGMEM = R"rawliteral(
     padding:  .4rem;
     } 
   
-  .button3 {
-   background-color: #ffffff;
-   color: black;
-   } 
    .button3:hover {
   background-color: %hover%;
   color: white;
@@ -99,22 +123,21 @@ const char test_html[] PROGMEM = R"rawliteral(
   .pt-2 {padding-top: .75rem;}
   .form-input {
     margin-bottom: 1rem;
-    background: #fff;
     background-image: none;
     border: 0.25rem dashed %hover%;
     border-radius: .4rem;
-    color: %hover%;
+    font-weight: bold;
+    color: %color%;
     font-size: 1rem;
     padding:  .4rem;
    }
      
     input[type="submit"] {
-     background-color: #000000;
-     border-color: #000000;
+     background-color: %color%;
      color: white;
      font-size: 1.0rem;
      font-weight: bold;
-     border:  .25rem solid;
+     border:  .25rem solid %color%;
      border-radius: .4rem;
      font-weight: bold;
      padding:  .3rem .8rem;
@@ -126,7 +149,7 @@ const char test_html[] PROGMEM = R"rawliteral(
      }
     input[type="submit"]:hover {
      background-color: #ffffff;
-     border-color: #ffffff;
+     border-color: #000000;
      color: %color%;
      border: .25rem solid;
      border-radius: .4rem;
@@ -166,7 +189,6 @@ const char test_html[] PROGMEM = R"rawliteral(
   }
 
   .upload-bar{
-   background: #fff;
    background-image: none;
    border: 0.25rem dashed %hover%;
    border-radius: .4rem;
@@ -205,6 +227,9 @@ const char test_html[] PROGMEM = R"rawliteral(
     <div class = "button button2">
       <button2>Management</button2>
     </div>
+    <div class = "button button1">
+    <button1 onclick="darkFunction()">Toggle dark mode</button1>
+    </div>
    </div>
    
    <div class="col-12 mt-3 p-centered">
@@ -228,7 +253,7 @@ const char test_html[] PROGMEM = R"rawliteral(
      <div class = "menu-buttons">
       <div class = "menu-reboot">
        <div class = "button button3">
-        <button3>%processorplaceholder% Reboot</button3>
+        <button3 onclick="location.href='/reboot'">%processorplaceholder% Reboot</button3>
        </div>
       </div>
      </div>
@@ -290,6 +315,13 @@ domReady(function() {
     xhr.send(formData);
    }
 });
+
+
+function darkFunction() {
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+}
+
 
 </script>
 </body>
