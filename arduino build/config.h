@@ -5,7 +5,9 @@ const char* password = "........";
 const char* host        = "ESP-OTA";
 
 /* HTML */
-#define htmltitle         "WHO am I?" // main title on the top of webpage --- if not defined will default to device name then host
+int darkState = false;                 // prefered darkmode state
+
+#define htmltitle         "WHO am I?"  // main title on the top of webpage --- if not defined will default to device name then host
 #define typetitle         "What am I?" // main title on the top of webpage --- if not defined will default to device name then host
 
 // purple
