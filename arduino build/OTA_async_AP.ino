@@ -21,6 +21,9 @@
 
 bool restartRequired = false;
 
+// darkmode variables
+const char* PARAM_INPUT_1 = "state";
+
 #include "config.h"   // wifi and other config
 
 /* include the webpages (done in HTML) */
@@ -53,6 +56,15 @@ String processor(const String& var){ // Change placeholders on webpage
                 titleing +=  DeviceID();
             #endif
     return titleing;
+  }
+  if(var == "dark"){
+    String dark = "";
+    if (darkState == false){
+      dark += "body { background-color: white; color: black; }";
+    }else{
+      dark += "body { background-color: black; color: white; }";
+    }
+    return dark;
   }
   if(var == "color"){
     String coloring = "";
@@ -129,7 +141,7 @@ boolean webInit() {
     request->send_P(200, "text/html", home_html, processor );
   });
 
-  server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/management", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send_P(200, "text/html", test_html, processor );
   });
 
@@ -142,7 +154,16 @@ boolean webInit() {
     restartRequired = true;
   });
 
-  server.on("/update", HTTP_POST, [&](AsyncWebServerRequest *request) {
+  server.on("/darkmode", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    String inputMessage1;
+    if (request->hasParam(PARAM_INPUT_1)) {
+      inputMessage1 = request->getParam(PARAM_INPUT_1)->value();
+      if (inputMessage1 == "1"){ darkState = !darkState;}
+    }
+    request->send(200, "text/plain", "OK");
+  });
+
+  server.on("/management", HTTP_POST, [&](AsyncWebServerRequest *request) {
                 // the request handler is triggered after the upload has finished... 
                 // create the response, add header, and send response
                 AsyncWebServerResponse *response = request->beginResponse((Update.hasError())?500:200, "text/plain", (Update.hasError())?"FAIL":"OK");

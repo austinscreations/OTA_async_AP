@@ -59,15 +59,7 @@ const char test_html[] PROGMEM = R"rawliteral(
     text-align: center;
     }
     
-    body {
-     background-color: white;
-     color: black;
-    }
-    
-   .dark-mode {
-    background-color: black;
-    color: white;
-   }
+    %dark%
     
     h2 {
     font-size: 3.0rem;
@@ -316,11 +308,13 @@ domReady(function() {
    }
 });
 
-
 function darkFunction() {
-   var element = document.body;
-   element.classList.toggle("dark-mode");
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/darkmode?state=1", true);
+  xhr.send();
+  setTimeout(function () {window.location.href = "/management";}, 100);
 }
+
 
 
 </script>

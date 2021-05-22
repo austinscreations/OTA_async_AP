@@ -13,14 +13,9 @@ const char home_html[] PROGMEM = R"rawliteral(
   <link rel="icon" href="data:,">
   <style>
     html {font-family: Arial; display: inline-block; text-align: center;}
-    body {
-     background-color: white;
-     color: black;
-    }
-   .dark-mode {
-    background-color: black;
-    color: white;
-   }
+    
+   %dark% 
+
     h2 {
     font-size: 3.0rem;
     color: %color%;
@@ -96,7 +91,7 @@ const char home_html[] PROGMEM = R"rawliteral(
      <button1>Home</button>
     </div>
     <div class = "button button2">
-     <button2 onclick="location.href='/update'">Management</button>
+     <button2 onclick="location.href='/management'">Management</button>
     </div>
     <div class = "button button2">
     <button2 onclick="darkFunction()">dark mode</button2>
@@ -113,7 +108,6 @@ const char home_html[] PROGMEM = R"rawliteral(
     <span class = "host">%macplaceholder%</host></span>
    </div>
    
-   
     <div class="columns mt-4">
       <div class="col-12 text-center">
        <span class="label label-rounded mr-2">%IDplaceholder%</span> 
@@ -127,9 +121,12 @@ const char home_html[] PROGMEM = R"rawliteral(
   </div>
   
    <script>
-  function darkFunction() {
-   var element = document.body;
-   element.classList.toggle("dark-mode");
+   
+function darkFunction() {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/darkmode?state=1", true);
+  xhr.send();
+  setTimeout(function () {window.location.href = "/home";}, 100); 
 }
  
 
