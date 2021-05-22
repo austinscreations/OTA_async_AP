@@ -228,7 +228,7 @@ const char test_html[] PROGMEM = R"rawliteral(
       <button2>Management</button2>
     </div>
     <div class = "button button1">
-    <button1 onclick="darkFunction()">Toggle dark mode</button1>
+    <button1 onclick="darkFunction()">dark mode</button1>
     </div>
    </div>
    
