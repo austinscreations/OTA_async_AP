@@ -99,7 +99,7 @@ const char home_html[] PROGMEM = R"rawliteral(
      <button2 onclick="location.href='/update'">Management</button>
     </div>
     <div class = "button button2">
-    <button2 onclick="darkFunction()">Toggle dark mode</button2>
+    <button2 onclick="darkFunction()">dark mode</button2>
     </div>
    </div>
    
