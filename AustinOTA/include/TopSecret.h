@@ -1,6 +1,6 @@
 /* WIFI */
-// const char* ssid = "";
-// const char* password = "";
+const char* ssid         = "";
+const char* password     = "";
 
 /* MQTT */
 const char* MQTTbroker   = "";
