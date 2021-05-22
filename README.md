@@ -1,7 +1,9 @@
 # OTA_async_AP
 Async server with OTA and AP setup built in.
 
-2021-05-22 added new version to arduino buid - stil lahevn't merged changes to paltformIO files and vice-versa. Dark mode added and progress abr plus redirects work for OTA in teh arduino build.
+2021-05-22 added latest PlatformIO files these files have an error somewhere.
+
+2021-05-22 added new version to arduino buid - still haven't merged changes to paltformIO files and vice-versa. Dark mode added and progress abr plus redirects work for OTA in teh arduino build.
 
 2021-05-19 added folder arduino build with an arduino set up sketch that has a newer update page layout and working update % bar and confirmation redirect and then autoload home page when device reboots. this folder will end up merged with platformIO code, and newer paltformIO exists but is untested and not added yet to this repo.
 
