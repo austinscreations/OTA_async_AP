@@ -1,0 +1,11 @@
+TODO
+    Progress Bar - TEST!!!
+    reboot page text
+    errorplaceholder
+
+In BlinkIt()
+    interval should be an unsigned long, not just a long.
+
+WebInit()
+    Really should return something...
+DIDIT - sorta
