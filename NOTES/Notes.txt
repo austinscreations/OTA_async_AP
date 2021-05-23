@@ -1,0 +1,6 @@
+TODO
+    Option AP mode for wifi credential setup
+
+WebInit()
+    Really should return something...
+DIDIT - sorta
