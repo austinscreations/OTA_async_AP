@@ -16,7 +16,6 @@ body {
    padding:00px;
 }
 #body {
-   // height:100%%;
    padding:100px;
 }
 #footer {
