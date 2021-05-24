@@ -26,7 +26,8 @@ const char reboot_html[] PROGMEM = R"rawliteral(
       </div>
 
       <div id="body">
-        <h2 align=center>Device Will Reboot and Load Home Page</h2>
+        <h2 align=center>Device Will Reboot</h2>
+        <h2 align=center>and Load Home Page</h2>
       </div>
 
       <div id="footer">

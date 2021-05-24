@@ -7,26 +7,23 @@ const char *TheCSS PROGMEM = R"rawliteral(
 body {
    margin:0;
    padding:0;
-   height:100%%;
 }
 #container {
-   min-height:100%%;
    position:relative;
+   min-height: 100%%;
 }
 #header {
-
    padding:00px;
 }
 #body {
-   padding:10px;
-   padding-bottom:100px;   /* Height of the footer */
+   // height:100%%;
+   padding:100px;
 }
 #footer {
-   position:absolute;
+   height:100px;   /* Height of the footer */
+   position:fixed;
    bottom:0;
    width:100%%;
-   height:100px;   /* Height of the footer */
-
 }
 
    html {font-family: Arial; display: inline-block; text-align: center;}
