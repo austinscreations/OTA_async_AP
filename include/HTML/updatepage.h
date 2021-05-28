@@ -87,7 +87,7 @@ const char update_html[] PROGMEM = R"rawliteral(
          <p><b>Wifi Connection: </b>%conx%</p>
          <p><b>SSID: </b>%stassid%</p>
          <p><b>IP: </b>%staip%</p>
-         <p><b>IP: </b>%stamac%</p>
+         <p><b>MAC: </b>%stamac%</p>
          <p><b>Gateway IP: </b>%stagw%</p>
          <p><b>Subnet Mask: </b>%stasub%</p>
          <p><b>DNS IP: </b>%dnss%</p>
