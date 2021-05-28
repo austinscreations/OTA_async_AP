@@ -145,14 +145,16 @@ String processor(const String &var) // Change placeholders on webpage
          deviceREBOOTED = false;
 
          #if defined(ESP8266)
-         String RebootReason =
-            ESP.getResetReason().c_str();
-         #elif defined(ESP32)
-         String RebootReason =
-            // ESP.getBootMode());
-            "No Clue...";
-         #endif
-            erroring += " (";
+            String RebootReason =
+                ESP.getResetReason().c_str();
+          #elif defined(ESP32)
+            String RebootReason =
+                return_reset_reason(rtc_get_reset_reason(0));
+            erroring += RebootReason;
+            erroring += "/";
+            RebootReason =
+                return_reset_reason(rtc_get_reset_reason(1));
+          #endif
             erroring += RebootReason;
             erroring += ")";
         }
