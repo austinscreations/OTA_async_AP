@@ -57,7 +57,19 @@ String info_memsketch(){
     return memsketch;
 }
 String info_lastreset(){
-    String lastreset = " Bork Gotta Add This ";
+    String lastreset = "";
+    #if defined(ESP8266)
+            String RebootReason =
+                ESP.getResetReason().c_str();
+          #elif defined(ESP32)
+            String RebootReason =
+                return_reset_reason(rtc_get_reset_reason(0));
+            lastreset += RebootReason;
+            lastreset += "/";
+            RebootReason =
+                return_reset_reason(rtc_get_reset_reason(1));
+          #endif
+            lastreset += RebootReason;
     return lastreset;
 }
 String info_conx(){
