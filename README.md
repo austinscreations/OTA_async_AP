@@ -1,7 +1,9 @@
 # OTA_async_AP
 Async server with OTA and AP setup built in.
 
-2021-05-22 latest firmware for platformIO works correctly all major fuctiosn wanted have been added minus AP mode for wifi credentials.
+2021-05-27 still workin gOn AP mode, adding more device information to the management page.
+
+2021-05-22 latest firmware for platformIO works correctly all major fuctions wanted have been added minus AP mode for wifi credentials.
 
 2021-05-22 added latest PlatformIO files these files have an error somewhere.
 
