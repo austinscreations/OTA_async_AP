@@ -143,6 +143,7 @@ String processor(const String &var) // Change placeholders on webpage
         } else {
          erroring += "Device Rebooted";
          deviceREBOOTED = false;
+            erroring += " (";
 
          #if defined(ESP8266)
             String RebootReason =
