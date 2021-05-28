@@ -67,6 +67,36 @@ const char update_html[] PROGMEM = R"rawliteral(
            </div>
          </div>
        </div>
+
+       <div class = "menu-reboot">
+         <p><b>UpTime: </b>%uptime%</p>
+         <p><b>Chip ID: </b>%chipid%</p>
+         <p><b>Flash Size: </b>%idesize%</p>
+         <p><b>Real Flash Size: :</b>%flashsize%</p>
+         <p><b>SDK Version: </b>%sdkver%</p>
+         <p><b>CPU Frequency: </b>%cpufreq%MHz</p>
+         <p><b>Memory - Free Heap: </b>%freeheap%</p>
+         <p><b>Memory - Sketch Size: </b>%memsketch%</p>
+          <div class="upload-bar">
+           <div class="w3-background">
+             <div class="w3-progress" style="width: %memsmeter%">
+             </div>
+            </div>
+          </div>
+         <p><b>Last Reset Reason: </b>%lastreset%</p>
+         <p><b>WIFI:</b></p>
+         <p><b>Wifi Connection: </b>%conx%</p>
+         <p><b>SSID: </b>%stassid%</p>
+         <p><b>IP: </b>%staip%</p>
+         <p><b>IP: </b>%stamac%</p>
+         <p><b>Gateway IP: </b>%stagw%</p>
+         <p><b>Subnet Mask: </b>%stasub%</p>
+         <p><b>DNS IP: </b>%dnss%</p>
+         <p><b>Host: </b>%hostnom%</p>
+         <p><b>AP SSID: </b>%apssid%</p>
+         <p><b>AP IP: </b>%apip%</p>
+         <p><b>AP MAC: </b>%apmac%</p>
+       </div>
      </div>  <!-- BODY -->
 
       <div id="footer">
