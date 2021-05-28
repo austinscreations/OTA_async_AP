@@ -1,5 +1,6 @@
 #include "main.h"
 #include "HTML/css.h"
+#include "info_placement.h"
 
 /* For Platform.IO */
 /* Sets Device Name Flag */
@@ -129,6 +130,9 @@ String processor(const String &var) // Change placeholders on webpage
 #elif defined(ESP32)
         PROing += "ESP32";
 #endif
+        PROing += " (";
+        PROing += String(ESP.getFlashChipSize() / 1024 / 1024, DEC);
+        PROing += "MB )";
         return PROing;
     }
     if (var == "errorplaceholder")
@@ -139,8 +143,124 @@ String processor(const String &var) // Change placeholders on webpage
         } else {
          erroring += "Device Rebooted";
          deviceREBOOTED = false;
+
+         #if defined(ESP8266)
+         String RebootReason =
+            ESP.getResetReason().c_str();
+         #elif defined(ESP32)
+         String RebootReason =
+            // ESP.getBootMode());
+            "No Clue...";
+         #endif
+            erroring += " (";
+            erroring += RebootReason;
+            erroring += ")";
         }
         return erroring;
+    }
+    if(var == "uptime")
+    {
+     String infos = info_uptime();
+     return infos;
+    }
+    if(var == "chipid")
+    {
+     String infos = info_chipid();
+     return infos;
+    }
+    if(var == "idesize")
+    {
+      String infos = info_idesize();
+     return infos;
+    }
+    if(var == "flashsize")
+    {
+      String infos = info_flashsize();
+     return infos;
+    }
+    if(var == "sdkver")
+    {
+      String infos = info_sdkver();
+     return infos;
+    }
+    if(var == "cpufreq")
+    {
+      String infos = info_cpufreq();
+     return infos;
+    }
+    if(var == "freeheap")
+    {
+      String infos = info_freeheap();
+     return infos;
+    }
+    if(var == "memsketch")
+    {
+      String infos = info_memsketch();
+     return infos;
+    }
+    if(var == "lastreset")
+    {
+      String infos = info_lastreset();
+     return infos;
+    }
+    if(var == "conx")
+    {
+      String infos = info_conx();
+     return infos;
+    }
+    if(var == "stassid")
+    {
+      String infos = info_stassid();
+     return infos;
+    }
+    if(var == "staip"){
+      String infos = info_staip();
+     return infos;
+    }
+    if(var == "stamac")
+    {
+      String infos = info_stamac();
+     return infos;
+    }
+    if(var == "stagw")
+    {
+      String infos = info_stagw();
+     return infos;
+    }
+    if(var == "stasub")
+    {
+      String infos = info_stasub();
+     return infos;
+    }
+    if(var == "dnss")
+    {
+      String infos = info_dnss();
+     return infos;
+    }
+    if(var == "hostnom")
+    {
+      String infos = info_hostnom();
+     return infos;
+    }
+    if(var == "apssid")
+    {
+      String infos = info_apssid();
+     return infos;
+    }
+    if(var == "apip")
+    {
+      String infos = info_apip();
+     return infos;
+    }
+    if(var == "apmac")
+    {
+      String infos = info_apmac();
+     return infos;
+    }
+    if(var == "memsmeter")
+    {
+      String infos = info_memsmeter();
+     return infos;
     }
     return String();
 }
