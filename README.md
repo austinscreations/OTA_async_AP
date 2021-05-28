@@ -1,7 +1,9 @@
 # OTA_async_AP
 Async server with OTA and AP setup built in.
 
-2021-05-27 still workin gOn AP mode, adding more device information to the management page.
+2021-05-28 reboot reason has been fixed both in teh footer and on the management printout data section.
+
+2021-05-27 still working On AP mode, adding more device information to the management page.
 
 2021-05-22 latest firmware for platformIO works correctly all major fuctions wanted have been added minus AP mode for wifi credentials.
 
