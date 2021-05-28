@@ -84,7 +84,6 @@ const char update_html[] PROGMEM = R"rawliteral(
             </div>
           </div>
          <p><b>Last Reset Reason: </b>%lastreset%</p>
-         <p><b>WIFI:</b></p>
          <p><b>Wifi Connection: </b>%conx%</p>
          <p><b>SSID: </b>%stassid%</p>
          <p><b>IP: </b>%staip%</p>
