@@ -12,7 +12,15 @@ String info_uptime(){
    return uptimeing;
   }
 String info_chipid(){
-    String chipid = (String(ESP.getChipId(),HEX));
+    #ifdef ESP8266
+      String chipid = (String(ESP.getChipId(),HEX));
+    #elif defined ESP32
+      uint32_t chipId = 0;
+      for(int i=0; i<17; i=i+8) {
+      chipId |= ((ESP.getEfuseMac() >> (40 - i)) & 0xff) << i;
+      }
+      String chipid = ((String)(chipId));
+    #endif
     return chipid;
 }
 String info_idesize(){
