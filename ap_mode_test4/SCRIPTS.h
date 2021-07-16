@@ -1,0 +1,46 @@
+#ifndef SCRIPTS_h
+#define SCRIPTS_h
+
+const char CSS_SCRIPTS[] PROGMEM = R"rawliteral(
+    <script>
+      function darkFunction() {
+       var xhr = new XMLHttpRequest();
+       xhr.open("GET", "/darkmode?state=1", true);
+       xhr.send();
+       setTimeout(function () {window.location.href = "/home";}, 100);
+      }
+
+      function checkConnectionStatus()
+{
+    let xhttp = new XMLHttpRequest();
+    xhttp.timeout = 2000;
+    xhttp.onreadystatechange = function()
+    {
+        if (this.readyState == 4)
+        {
+            if (this.status == 200)
+            {
+                document.getElementById("state").style.background = "green";
+            }
+            if (this.status == 205)
+            {
+                document.getElementById("state").style.background = "orange";
+            }
+            else
+            {
+                document.getElementById("state").style.background = "red";
+            }
+             setTimeout(checkConnectionStatus, 5000);
+            // Repeat our status check only once there's a result
+        }
+    }
+    xhttp.open("GET", "/state", true);
+    xhttp.send();
+}
+// Initial status check
+setTimeout(checkConnectionStatus, 5000);
+
+   </script>
+)rawliteral";
+
+#endif
