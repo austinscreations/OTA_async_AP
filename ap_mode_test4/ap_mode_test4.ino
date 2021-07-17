@@ -1,22 +1,29 @@
 /*
  *  Started 2021-07-09
+ *  // issue with online status for tri color operation
  *  
- *  AP - basic connection works - 2021-07-12
- *  basis of client connection works - 2021-07-13
+ *  AP - basic connection works         - 2021-07-12
+ *  basis of client connection works    - 2021-07-13
+ *  ap - wifi failover, and ap disabled - 2021-07-17
  * 
  * Goal - Have Wifi credentials and AP mode availble                                
- * Automatic rollover if wifi fails
+ * Automatic rollover if wifi fails                                                - done
+ * Add config feilds to config page                                                -
+ * save new configuration elements                                                 -
+ * recall saved config upon startup                                                -
+ * factory reset                                                                   -
  * Veiw main page and config page on both wifi and ap                              - done
- * if wifi configured - go to wifi                                                 - **************
+ * if wifi configured - go to wifi                                                 - done
  * if no wifi config - jump right to ap mode                                       - done
- * if wifi configured connect - 1 minute timeout start ap mode                     -
- * Keeps AP alive while no wifi
- * try wifi again
- * When wifi but no ap client , kill AP
+ * if wifi configured connect - ~30 second timeout start ap mode                   - done
+ * Keeps AP alive while no wifi                                                    - done
+ * try wifi again                                                                  - done
+ * When wifi but no ap client , kill AP                                            - done
+ * online status                                                                   - done
+ *   - green for active wifi webpage - red when no server    
+ *   - orange for webpage from AP wifth no wifi connected
+ *       - will go green when wifi conencted or red for no server
  * 
- * homepage and config page availible in both modes
- * 
- * auto reconnect can work like the online status where it expects a respones / request every so often...? - YES THIS WORKS
  * 
  * 
  */
@@ -46,12 +53,13 @@ AsyncWebServer server(80);
 uint8_t wifi_confirmed = false;
 uint8_t ap_client_connected = false;      //do we have a client connected to ap mode
 uint8_t ap_connected = false;             //station conencted to AP
+uint8_t ap_msg_timeout = false;
 uint8_t prev_ap_client_connected = false; //last state the client was in.
 uint8_t ap_start = false;
 unsigned long prev_client;                // last time since a client was connected in AP mode
 unsigned long prevAPmillis;
 unsigned long wifimillis;
-//unsigned long timer;
+unsigned long timer;
 unsigned long ap_timeout;
 
 
@@ -95,15 +103,18 @@ boolean webInit() {
         request->send_P(200, "text/html", config_html, processor);
     });
 
-    server.on("/state", HTTP_GET, [](AsyncWebServerRequest *request){ // sets online status and alerts us that a client is connected
-      if (WiFi.status() == WL_CONNECTED) 
-      {
-        request->send(200, "text/plain", "true"); // we have wifi - online status is green
-      }
-      else
-      {
-        request->send(205, "text/plain", "true"); // no wifi - Online status is yellow
-      }
+    server.on("/state", HTTP_GET, [](AsyncWebServerRequest *request){ // sets onlien status and alerts us that a client is connected
+//    request->send(200, "text/plain", "true");
+//    request->send_P(200, "text/plain", "green");
+     if (WiFi.status() != WL_CONNECTED)
+     {
+      request->send_P(200, "text/plain", "orange");
+     }
+     else
+     {
+      request->send_P(200, "text/plain", "green");
+     }
+     
     ap_client_connected = true;
     prev_client = millis();
 //    Serial.print("Received request from client with IP: ");         /////////////
@@ -134,9 +145,11 @@ void wifi_checkup(){
      if ((millis() - prevAPmillis) > 30000)  // start AP mode
      {
       Serial.println("\n wifi not connecting - starting AP");
+      ap_msg_timeout = false;
       access_point_init(); // start AP for config
      }
     }
+    ap_timeout = millis();
   }
   if (WiFi.status() == WL_CONNECTED)
   {
@@ -153,10 +166,15 @@ void wifi_checkup(){
 
     if (ap_connected == false) // no one is connected to AP
     {
-      if ((millis() - ap_timeout) > 30000); // haven't seen an AP station in 30 seconds turn off AP
-      {
-        WiFi.softAPdisconnect(true);
-      }
+       if (ap_msg_timeout == false)
+       {
+         if ((millis() - ap_timeout) > 30000); // haven't seen an AP station in 30 seconds turn off AP
+         {
+           WiFi.softAPdisconnect(true);
+           Serial.println("AP mode disabled - wifi restored");
+           ap_msg_timeout = true;
+         }
+       }
     }
     else
     {
@@ -194,7 +212,6 @@ void setup() {
 }
 
 void loop() {
- ap_connected = WiFi.softAPgetStationNum();
 
  if ((millis() - wifimillis) > 2000)
  {
@@ -223,14 +240,15 @@ if (ap_client_connected != prev_ap_client_connected) // client has connected or 
   prev_ap_client_connected = ap_client_connected;
 }
 
-//if ((millis() - timer) > 5000) // this works - shows number of stations conencted to AP wifi
-//{
-//  if (ap_start == true)
-//  {
+if ((millis() - timer) > 5000) // this works - shows number of stations conencted to AP wifi
+{
+  if (ap_start == true)
+  {
 //    Serial.printf("Stations connected = %d\n", WiFi.softAPgetStationNum());
-//  }
-//  timer = millis();
-//}
+    ap_connected = WiFi.softAPgetStationNum();
+  }
+  timer = millis();
+}
 
 
 }

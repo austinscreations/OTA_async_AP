@@ -10,7 +10,8 @@ const char CSS_SCRIPTS[] PROGMEM = R"rawliteral(
        setTimeout(function () {window.location.reload();}, 100);
       }
 
-      function checkConnectionStatus()
+
+            function checkConnectionStatus()
 {
     let xhttp = new XMLHttpRequest();
     xhttp.timeout = 2000;
@@ -18,13 +19,9 @@ const char CSS_SCRIPTS[] PROGMEM = R"rawliteral(
     {
         if (this.readyState == 4)
         {
-            if (this.status == 200)
+            if (this.status === 200)
             {
-                document.getElementById("state").style.background = "green";
-            }
-            if (this.status == 205)
-            {
-                document.getElementById("state").style.background = "orange";
+                document.getElementById("state").style.background = this.responseText;
             }
             else
             {
