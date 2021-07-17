@@ -7,7 +7,7 @@ const char CSS_SCRIPTS[] PROGMEM = R"rawliteral(
        var xhr = new XMLHttpRequest();
        xhr.open("GET", "/darkmode?state=1", true);
        xhr.send();
-       setTimeout(function () {window.location.href = "/home";}, 100);
+       setTimeout(function () {window.location.reload();}, 100);
       }
 
       function checkConnectionStatus()
