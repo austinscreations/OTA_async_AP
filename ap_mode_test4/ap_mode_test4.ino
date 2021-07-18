@@ -168,7 +168,7 @@ void wifi_checkup(){
     {
        if (ap_msg_timeout == false)
        {
-         if ((millis() - ap_timeout) > 30000); // haven't seen an AP station in 30 seconds turn off AP
+         if ((millis() - ap_timeout) > 10000) // haven't seen an AP station in 30 seconds turn off AP
          {
            WiFi.softAPdisconnect(true);
            Serial.println("AP mode disabled - wifi restored");
