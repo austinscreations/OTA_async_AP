@@ -13,15 +13,14 @@ uint8_t     AP_CHANNEL  = 1; // not written over
 uint8_t     AP_HIDDEN;
 uint8_t     AP_MAX_CON  = 1; // not written over
 
-char        mqtt_broker[40];
-char        mqtt_port[8];                              // <<<< need to change declaration original = uint16_t ??????????? won't know until actully connecting to mqtt
-//int         mqtt_port;
-char        mqtt_username[40];
-char        mqtt_password[40];
+char        mqtt_broker[32];
+uint16_t    mqtt_port;
+char        mqtt_username[32];
+char        mqtt_password[32];
 
 uint8_t     darkState;
-char        htmltitle[40];
-char        htmltype[40];
+char        htmltitle[32];
+char        htmltype[32];
 char        htmlcolor[10];
 char        htmlhover[10];
 

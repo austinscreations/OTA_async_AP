@@ -25,7 +25,9 @@ bool saveFACTORY() {
       itoa(AP_HIDDENFACTORY, cstr1, 10);
       json["AP_HIDDEN"] = cstr1;
     json["mqtt_broker"]   = mqtt_brokerFACTORY;
-    json["mqtt_port"]     = mqtt_portFACTORY;
+      char cstr2[8];
+      itoa(mqtt_portFACTORY, cstr2, 10);
+      json["mqtt_port"] = cstr2;
     json["mqtt_username"] = mqtt_usernameFACTORY;
     json["mqtt_password"] = mqtt_passwordFACTORY;
       char cstr3[1];
@@ -63,7 +65,9 @@ bool saveFACTORY() {
       itoa(AP_HIDDEN, cstr1, 10);
       json["AP_HIDDEN"] = cstr1;
     json["mqtt_broker"]   = mqtt_broker;
-    json["mqtt_port"]     = mqtt_port;
+      char cstr2[8];
+      itoa(mqtt_port, cstr2, 10);
+      json["mqtt_port"] = cstr2;
     json["mqtt_username"] = mqtt_username;
     json["mqtt_password"] = mqtt_password;
       char cstr3[1];
@@ -116,11 +120,11 @@ bool loadConfig(){
           strcpy(password, json["password"]);
           strcpy(AP_SSID, json["AP_SSID"]);
           strcpy(AP_PASS, json["AP_PASS"]);
-//            AP_PASS = json["AP_PASS"];
             String convert1 = json["AP_HIDDEN"];
             AP_HIDDEN = convert1.toInt();
           strcpy(mqtt_broker, json["mqtt_broker"]);
-          strcpy(mqtt_port, json["mqtt_port"]);
+            String convert2 = json["mqtt_port"];
+            mqtt_port = convert2.toInt();
           strcpy(mqtt_username, json["mqtt_username"]);
           strcpy(mqtt_password, json["mqtt_password"]);
             String convert3 = json["darkState"];
@@ -164,7 +168,9 @@ bool saveFACTORY() {
       itoa(AP_HIDDENFACTORY, cstr1, 10);
       json["AP_HIDDEN"] = cstr1;
     json["mqtt_broker"]   = mqtt_brokerFACTORY;
-    json["mqtt_port"]     = mqtt_portFACTORY;
+      char cstr2[8];
+      itoa(mqtt_portFACTORY, cstr2, 10);
+      json["mqtt_port"] = cstr2;
     json["mqtt_username"] = mqtt_usernameFACTORY;
     json["mqtt_password"] = mqtt_passwordFACTORY;
       char cstr3[1];
@@ -202,7 +208,9 @@ bool saveFACTORY() {
       itoa(AP_HIDDEN, cstr1, 10);
       json["AP_HIDDEN"] = cstr1;
     json["mqtt_broker"]   = mqtt_broker;
-    json["mqtt_port"]     = mqtt_port;
+      char cstr2[8];
+      itoa(mqtt_port, cstr2, 10);
+      json["mqtt_port"] = cstr2;
     json["mqtt_username"] = mqtt_username;
     json["mqtt_password"] = mqtt_password;
       char cstr3[1];
@@ -255,11 +263,11 @@ bool loadConfig(){
           strcpy(password, json["password"]);
           strcpy(AP_SSID, json["AP_SSID"]);
           strcpy(AP_PASS, json["AP_PASS"]);
-//           AP_PASS = json["AP_PASS"];
             String convert1 = json["AP_HIDDEN"];
             AP_HIDDEN = convert1.toInt();
           strcpy(mqtt_broker, json["mqtt_broker"]);
-          strcpy(mqtt_port, json["mqtt_port"]);
+            String convert2 = json["mqtt_port"];
+            mqtt_port = convert2.toInt();
           strcpy(mqtt_username, json["mqtt_username"]);
           strcpy(mqtt_password, json["mqtt_password"]);
             String convert3 = json["darkState"];
@@ -425,9 +433,9 @@ void wifisaving(AsyncWebServerRequest *request)
         String port_ = request->arg("port");
         if (port_ != NULL) // we have a value to do something with
         {
-          if (port_ != mqtt_port) // new color requested
+          if (port_.toInt() != mqtt_port) // new color requested
           {
-            strcpy(mqtt_port, port_.c_str());
+            mqtt_port = port_.toInt();
             new_update = true;
             restartRequired = true;
           }
