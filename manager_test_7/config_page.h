@@ -60,12 +60,12 @@ const char config_html[] PROGMEM = R"rawliteral(
       
       <br/>
       
-      <input id='mqtt' name='matt' maxlength='31' placeholder='mqtt broker' {c}><br/>
+      <input id='mqtt' name='mqtt' maxlength='31' placeholder='mqtt broker' {c}><br/>
       <input id='port' name='port' maxlength='4' placeholder='mqtt port' {c}><br/>
       
       <br/>
       
-      <input id='mqttuser' name='mattuser' maxlength='31' placeholder='mqtt username' {c}><br/>
+      <input id='mqttuser' name='mqttuser' maxlength='31' placeholder='mqtt username' {c}><br/>
       <input id='mqttpass' name='mqttpass' maxlength='31' type='password' placeholder='mqtt password' {c}><br/>
       
       <br/>
