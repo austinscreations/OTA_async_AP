@@ -1,6 +1,8 @@
 # OTA_async_AP
 Async server with OTA and AP setup built in.
 
+2021-08-20 manager test 8 added, which fixes and changes quite a few things. also added better debug output.
+
 2021-08-02 manager test 7 added - this has full OTA and AP mode with config working. loading this on a blank MCU should boot into AP mode - AP password defult is SUMpassword.
 
 2021-07-17 ap_mode_test4 - the creation of ap mode for the overal OTA code. has main functions other than a confguration page working.
